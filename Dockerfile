@@ -11,12 +11,11 @@ RUN apt-get update && apt-get install -y wget zip git
 RUN wget https://download.pytorch.org/libtorch/cu101/libtorch-cxx11-abi-shared-with-deps-1.4.0.zip 
 RUN unzip libtorch*.zip && mv libtorch /usr/lib/libtorch_abi11_14
 RUN rm *.zip
-RUN wget https://download.pytorch.org/libtorch/cu101/libtorch-cxx11-abi-shared-with-deps-1.3.0.zip
-RUN unzip libtorch*.zip && mv libtorch /usr/lib/libtorch_abi11_13
-RUN rm *.zip
 COPY opencv/ /usr/opencv
 RUN apt-get install -y build-essential
 RUN apt-get install -y cmake git libgtk2.0-dev pkg-config libavcodec-dev libavformat-dev libswscale-dev
 RUN apt-get install -y python-dev python-numpy libtbb2 libtbb-dev libjpeg-dev libpng-dev libtiff-dev  libdc1394-22-dev
 RUN cd /usr/opencv && mkdir build && cd build && cmake -D BUILD_SHARED_LIBS=OFF  -D WITH_GSTREAMER=ON  -D CMAKE_BUILD_TYPE=RELEASE .. && make -j6 && make install 
 RUN apt-get install libssl-dev
+RUN echo "export PATH=/usr/local/cuda-10.1/bin${PATH:+:${PATH}}" >> ~/.bashrc
+RUN source ~/.bashrc
